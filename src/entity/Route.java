@@ -2,7 +2,7 @@ package entity;
 
 import java.util.Scanner;
 
-public class Route{
+public class Route {
     private int id;
     private float range;
     private int stopNumber;
@@ -50,7 +50,7 @@ public class Route{
         AUTO_ID = autoId;
     }
 
-    public void inputInfo(){
+    public void inputInfo() {
         this.setId(Route.AUTO_ID);
 
         boolean check = true;
@@ -64,11 +64,11 @@ public class Route{
                 check = false;
                 continue;
             }
-            if (this.range <=0 ){
+            if (this.range <= 0) {
                 System.out.println("Khoảng cách không được nhỏ hơn hoặc bằng 0! Nhập lại: ");
                 check = false;
             }
-        }while (!check);
+        } while (!check);
         System.out.println("Nhập số điểm dừng: ");
         do {
             try {
@@ -79,11 +79,11 @@ public class Route{
                 check = false;
                 continue;
             }
-            if (this.stopNumber <=0 ){
+            if (this.stopNumber <= 0) {
                 System.out.println("Số điểm dừng không được nhỏ hơn hoặc bằng 0! Nhập lại: ");
                 check = false;
             }
-        }while (!check);
+        } while (!check);
         Route.AUTO_ID++;
     }
 

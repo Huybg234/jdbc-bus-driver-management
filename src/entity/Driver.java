@@ -128,8 +128,8 @@ public class Driver {
                 check = false;
                 continue;
             }
-            if (choice <= 0 || choice > 4) {
-                System.out.print("Nhập số trong khoảng từ 1 đến 4! Vui lòng thử lại: ");
+            if (choice <= 0 || choice > 6) {
+                System.out.print("Nhập số trong khoảng từ 1 đến 6! Vui lòng thử lại: ");
                 check = false;
             }
             switch (choice) {

@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriverDAO {
-    private static final String DRIVER_TABLE_NAME = "driver";
+    public static final String DRIVER_TABLE_NAME = "driver";
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String ADDRESS = "address";
-    private static final String PHONE_NUMBER = "phoneNumber";
-    private static final String LEVEL = "level";
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String ADDRESS = "address";
+    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String LEVEL = "level";
 
     private static final Connection connection;
 
@@ -29,7 +29,7 @@ public class DriverDAO {
         connection = DatabaseConnection.openConnection(DatabaseConstant.DRIVER_STRING, DatabaseConstant.URL, DatabaseConstant.USERNAME, DatabaseConstant.PASSWORD);
     }
 
-    public List<Driver> getDrivers(){
+    public List<Driver> getDrivers() {
         List<Driver> drivers = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -38,7 +38,7 @@ public class DriverDAO {
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             drivers = new ArrayList<>();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 int id = resultSet.getInt(ID);
                 String name = resultSet.getString(NAME);
                 String address = resultSet.getString(ADDRESS);
@@ -52,13 +52,13 @@ public class DriverDAO {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             DatabaseConnection.closeConnection(resultSet, preparedStatement, null);
         }
         return drivers;
     }
 
-    public void insertNewDriver(Driver driver){
+    public void insertNewDriver(Driver driver) {
         if (ObjectUtil.isEmpty(driver)) {
             return;
         }
@@ -69,12 +69,12 @@ public class DriverDAO {
             preparedStatement.setInt(1, driver.getId());
             preparedStatement.setString(2, driver.getName());
             preparedStatement.setString(3, driver.getAddress());
-            preparedStatement.setString(4,driver.getPhoneNumber());
-            preparedStatement.setString(5,driver.getLevel());
+            preparedStatement.setString(4, driver.getPhoneNumber());
+            preparedStatement.setString(5, driver.getLevel());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             DatabaseConnection.closeConnection(null, preparedStatement, null);
         }
     }

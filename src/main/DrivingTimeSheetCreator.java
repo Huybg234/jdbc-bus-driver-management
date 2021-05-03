@@ -12,32 +12,33 @@ import java.util.Scanner;
 
 public class DrivingTimeSheetCreator {
     private final List<Integer> checkID = new ArrayList<>();
+
     public boolean isValidSubjectAndTeacher() {
         return !CollectionUtil.isEmpty(MainRun.drivers) && !CollectionUtil.isEmpty(MainRun.routes);
     }
 
-    public void createDrivingTable(){
-        if(!isValidSubjectAndTeacher()){
+    public void createDrivingTable() {
+        if (!isValidSubjectAndTeacher()) {
             System.out.println("Bạn cần nhập lái xe và tuyến đường trước khi phân công");
             return;
         }
         boolean check = true;
         List<Driving> tempDrivings = new ArrayList<>();
-        for (int i=0; i< MainRun.drivers.size(); i++){
+        for (int i = 0; i < MainRun.drivers.size(); i++) {
             String driverName = MainRun.drivers.get(i).getName();
-            System.out.println("------Phân công cho lái xe "+driverName+"---------");
-            System.out.println("Nhập số tuyến đường mà lái xe " + driverName+" được phân công: ");
+            System.out.println("------Phân công cho lái xe " + driverName + "---------");
+            System.out.println("Nhập số tuyến đường mà lái xe " + driverName + " được phân công: ");
             int drivingRouteNumber = inputDrivingRouteNumber();
 
             List<DrivingTimeSheet> drivingTimeSheets = new ArrayList<>();
-            for (int j=0; j < drivingRouteNumber; j++){
-                System.out.println("Nhập id tuyến đường thứ "+(j+1)+" mà lái xe "+driverName+ " được phân công: ");
+            for (int j = 0; j < drivingRouteNumber; j++) {
+                System.out.println("Nhập id tuyến đường thứ " + (j + 1) + " mà lái xe " + driverName + " được phân công: ");
                 Route route = inputRouteId();
-                System.out.println("Nhập số lượt lái xe "+driverName+" đi tuyến đường này: ");
+                System.out.println("Nhập số lượt lái xe " + driverName + " đi tuyến đường này: ");
                 int drivingTurnNumber = inputTurnNumber(drivingTimeSheets);
-                drivingTimeSheets.add(new DrivingTimeSheet(route,drivingTurnNumber));
+                drivingTimeSheets.add(new DrivingTimeSheet(route, drivingTurnNumber));
             }
-            Driving driving = new Driving(MainRun.drivers.get(i),drivingTimeSheets);
+            Driving driving = new Driving(MainRun.drivers.get(i), drivingTimeSheets);
             tempDrivings.add(driving);
             driving.setTotalRouteNumber(drivingRouteNumber);
             MainRun.drivings.add(driving);
@@ -64,7 +65,7 @@ public class DrivingTimeSheetCreator {
             }
             int currentTotalTurn = calculateTotalTurn(drivingTimeSheets);
             if (currentTotalTurn + drivingTurnNumber > 15) {
-                System.out.println("Tổng lượt lái của lái xe đang là " + currentTotalTurn+ ", lớn hơn 15! Nhập lại: ");
+                System.out.println("Tổng lượt lái của lái xe đang là " + currentTotalTurn + ", lớn hơn 15! Nhập lại: ");
                 isValidTurnNumber = false;
             }
         } while (!isValidTurnNumber);

@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DriverCreator {
-    public void createNewDriver(){
+
+    public void createNewDriver() {
         System.out.println("Nhập số lượng lái xe muốn thêm mới: ");
         int driverQuantity = 0;
         boolean isValidDriverQuantity = true;
@@ -35,4 +36,5 @@ public class DriverCreator {
         MainRun.drivers.addAll(tempDriver);
         MainRun.driverDAO.insertNewDriver(tempDriver);
     }
+
 }

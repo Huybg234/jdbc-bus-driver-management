@@ -35,9 +35,6 @@ public class Driving {
         this.totalRouteNumber = totalRouteNumber;
     }
 
-    public Driving(int driverID, int routeID) {
-    }
-
     public Driver getDriver() {
         return driver;
     }

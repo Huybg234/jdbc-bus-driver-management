@@ -1,6 +1,5 @@
 package main;
 
-import drivertimesheet.Driving;
 import util.CollectionUtil;
 
 import java.util.ArrayList;
@@ -9,8 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DrivingTimeSheetSorterAndCalculator {
-    public void sortDrivingTable(){
-        if (CollectionUtil.isEmpty(MainRun.drivings)){
+    public void sortDrivingTable() {
+        if (CollectionUtil.isEmpty(MainRun.drivings)) {
             System.out.println("Nhập bảng phân công trước khi sắp xếp");
             return;
         }
@@ -20,10 +19,10 @@ public class DrivingTimeSheetSorterAndCalculator {
             System.out.println("2.Sắp xếp theo số lượng tuyến");
             System.out.println("3.Thoát");
             System.out.println("Hãy nhập sự lựa chọn của bạn: ");
-            int choice =0;
+            int choice = 0;
             boolean checkchoice = true;
             do {
-                try{
+                try {
                     choice = new Scanner(System.in).nextInt();
                     checkchoice = true;
                 } catch (Exception e) {
@@ -31,12 +30,12 @@ public class DrivingTimeSheetSorterAndCalculator {
                     checkchoice = false;
                     continue;
                 }
-                if (choice <= 0 || choice > 3){
+                if (choice <= 0 || choice > 3) {
                     System.out.println("Nhập số trong khoảng từ 1 đến 3! Nhập lại: ");
                     checkchoice = false;
                 }
-            }while (!checkchoice);
-            switch (choice){
+            } while (!checkchoice);
+            switch (choice) {
                 case 1:
                     sortByDriverName();
                     break;
@@ -46,35 +45,37 @@ public class DrivingTimeSheetSorterAndCalculator {
                 case 3:
                     return;
             }
-        }while (true);
+        } while (true);
     }
 
-    public void sortByDriverName(){
+    public void sortByDriverName() {
         MainRun.drivings.sort(Comparator.comparing(driving -> driving.getDriver().getName()));
         MainRun.printDriving();
     }
 
-    public void sortByRouteNumber(){
+    public void sortByRouteNumber() {
 //        MainRun.drivings.sort(Comparator.comparing(Driving::getTotalRouteNumber));
-        MainRun.drivings.sort(new Comparator<Driving>() {
-            @Override
-            public int compare(Driving o1, Driving o2) {
-                return o1.getTotalRouteNumber() < o2.getTotalRouteNumber() ? 1 : -1;
-            }
-        });
+
+//        MainRun.drivings.sort(new Comparator<Driving>() {
+//            @Override
+//            public int compare(Driving o1, Driving o2) {
+//                return o1.getTotalRouteNumber() < o2.getTotalRouteNumber() ? 1 : -1;
+//            }
+//        });
+        MainRun.drivings.sort((o1, o2) -> o1.getTotalRouteNumber() < o2.getTotalRouteNumber() ? 1 : -1);
         MainRun.printDriving();
     }
 
-    public void distanceDriving(){
-        if (CollectionUtil.isEmpty(MainRun.drivings)){
+    public void distanceDriving() {
+        if (CollectionUtil.isEmpty(MainRun.drivings)) {
             System.out.println("Nhập bảng phân công trước khi sắp xếp");
             return;
         }
-        for (int i=0; i < MainRun.drivings.size(); i++){
-            System.out.println("-------Tính tổng khoảng cách cho lái xe " + MainRun.drivers.get(i).getName()+"--------");
+        for (int i = 0; i < MainRun.drivings.size(); i++) {
+            System.out.println("-------Tính tổng khoảng cách cho lái xe " + MainRun.drivers.get(i).getName() + "--------");
             List<Float> distanceTotal = new ArrayList<>();
-            for (int j=0; j< MainRun.drivings.get(i).getDrivingTimeSheets().size(); j++){
-                float tmp = MainRun.drivings.get(i).getDrivingTimeSheets().get(j).getRoute().getRange()*
+            for (int j = 0; j < MainRun.drivings.get(i).getDrivingTimeSheets().size(); j++) {
+                float tmp = MainRun.drivings.get(i).getDrivingTimeSheets().get(j).getRoute().getRange() *
                         MainRun.drivings.get(i).getDrivingTimeSheets().get(j).getTurn();
                 distanceTotal.add(tmp);
             }
