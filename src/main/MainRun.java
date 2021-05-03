@@ -28,7 +28,7 @@ public class MainRun {
 
     public static void main(String[] args) {
         System.out.println("Program is initializing ....");
-        init();
+//        init();
         System.out.println("Program is ready!");
         menu();
     }

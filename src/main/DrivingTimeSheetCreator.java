@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DrivingTimeSheetCreator {
+    private final List<Integer> checkID = new ArrayList<>();
     public boolean isValidSubjectAndTeacher() {
         return !CollectionUtil.isEmpty(MainRun.drivers) && !CollectionUtil.isEmpty(MainRun.routes);
     }
@@ -20,6 +21,7 @@ public class DrivingTimeSheetCreator {
             System.out.println("Bạn cần nhập lái xe và tuyến đường trước khi phân công");
             return;
         }
+        boolean check = true;
         List<Driving> tempDrivings = new ArrayList<>();
         for (int i=0; i< MainRun.drivers.size(); i++){
             String driverName = MainRun.drivers.get(i).getName();
@@ -104,6 +106,14 @@ public class DrivingTimeSheetCreator {
                 System.out.println("không được có ký tự khác ngoài số! Nhập lại: ");
                 isValidRouteId = false;
             }
+            for (Integer integer : checkID) {
+                if (integer == routeId) {
+                    System.out.println("Tuyến đường đã tồn tại! Nhập lại: ");
+                    isValidRouteId = false;
+                    break;
+                }
+            }
+            checkID.add(routeId);
         } while (!isValidRouteId);
 
         Route route = searchRouteId(routeId);
