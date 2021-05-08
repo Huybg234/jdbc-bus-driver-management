@@ -1,6 +1,6 @@
 package main;
 
-import entity.Route;
+import entity.BusLine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,13 @@ public class RouteCreator {
             }
         } while (!isValidRouteQuantity);
 
-        List<Route> tempRoute = new ArrayList<>();
+        List<BusLine> tempBusLine = new ArrayList<>();
         for (int i = 0; i < routeQuantity; i++) {
-            Route route = new Route();
-            route.inputInfo();
-            tempRoute.add(route);
+            BusLine busLine = new BusLine();
+            busLine.inputInfo();
+            tempBusLine.add(busLine);
         }
-        MainRun.routes.addAll(tempRoute);
-        MainRun.routeDAO.insertNewRoute(tempRoute);
+        MainRun.busLines.addAll(tempBusLine);
+        MainRun.routeDAO.insertNewRoute(tempBusLine);
     }
 }

@@ -62,7 +62,7 @@ public class DrivingTimeSheetSorterAndCalculator {
 //                return o1.getTotalRouteNumber() < o2.getTotalRouteNumber() ? 1 : -1;
 //            }
 //        });
-        MainRun.drivings.sort((o1, o2) -> o1.getTotalRouteNumber() < o2.getTotalRouteNumber() ? 1 : -1);
+        MainRun.drivings.sort((o1, o2) -> o1.getTotalBusLineNumber() < o2.getTotalBusLineNumber() ? 1 : -1);
         MainRun.printDriving();
     }
 
@@ -71,19 +71,19 @@ public class DrivingTimeSheetSorterAndCalculator {
             System.out.println("Nhập bảng phân công trước khi sắp xếp");
             return;
         }
-        for (int i = 0; i < MainRun.drivings.size(); i++) {
+        for (int i = 0; i < MainRun.drivings.size()-1; i++) {
             System.out.println("-------Tính tổng khoảng cách cho lái xe " + MainRun.drivers.get(i).getName() + "--------");
             List<Float> distanceTotal = new ArrayList<>();
             for (int j = 0; j < MainRun.drivings.get(i).getDrivingTimeSheets().size(); j++) {
-                float tmp = MainRun.drivings.get(i).getDrivingTimeSheets().get(j).getRoute().getRange() *
-                        MainRun.drivings.get(i).getDrivingTimeSheets().get(j).getTurn();
+                float tmp = MainRun.drivings.get(i).getDrivingTimeSheets().get(j).getRoute().getDistance() *
+                        MainRun.drivings.get(i).getDrivingTimeSheets().get(j).getRoundTripNumber();
                 distanceTotal.add(tmp);
             }
             int tempTotal = 0;
             for (Float aFloat : distanceTotal) {
                 tempTotal += aFloat;
             }
-            MainRun.drivings.get(i).setTotalRange(tempTotal);
+            MainRun.drivings.get(i).setTotalDistance(tempTotal);
             System.out.println(tempTotal);
         }
     }

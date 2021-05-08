@@ -1,40 +1,40 @@
 package drivertimesheet;
 
-import entity.Route;
+import entity.BusLine;
 
 public class DrivingTimeSheet {
-    private Route route;
-    private int turn;
+    private BusLine busLine;
+    private int roundTripNumber;
 
     public DrivingTimeSheet() {
     }
 
-    public DrivingTimeSheet(Route route, int turn) {
-        this.route = route;
-        this.turn = turn;
+    public DrivingTimeSheet(BusLine busLine, int roundTripNumber) {
+        this.busLine = busLine;
+        this.roundTripNumber = roundTripNumber;
     }
 
-    public Route getRoute() {
-        return route;
+    public BusLine getRoute() {
+        return busLine;
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setBusLine(BusLine busLine) {
+        this.busLine = busLine;
     }
 
-    public int getTurn() {
-        return turn;
+    public int getRoundTripNumber() {
+        return roundTripNumber;
     }
 
-    public void setTurn(int turn) {
-        this.turn = turn;
+    public void setRoundTripNumber(int roundTripNumber) {
+        this.roundTripNumber = roundTripNumber;
     }
 
     @Override
     public String toString() {
         return "DrivingTimeSheet{" +
-                "route=" + route +
-                ", turn=" + turn +
+                "busLine=" + busLine +
+                ", roundTripNumber=" + roundTripNumber +
                 '}';
     }
 }

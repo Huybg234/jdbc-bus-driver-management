@@ -2,7 +2,7 @@ package main;
 
 import drivertimesheet.Driving;
 import drivertimesheet.DrivingTimeSheet;
-import entity.Route;
+import entity.BusLine;
 import util.CollectionUtil;
 import util.ObjectUtil;
 
@@ -14,7 +14,7 @@ public class DrivingTimeSheetCreator {
     private final List<Integer> checkID = new ArrayList<>();
 
     public boolean isValidSubjectAndTeacher() {
-        return !CollectionUtil.isEmpty(MainRun.drivers) && !CollectionUtil.isEmpty(MainRun.routes);
+        return !CollectionUtil.isEmpty(MainRun.drivers) && !CollectionUtil.isEmpty(MainRun.busLines);
     }
 
     public void createDrivingTable() {
@@ -29,18 +29,21 @@ public class DrivingTimeSheetCreator {
             System.out.println("------Phân công cho lái xe " + driverName + "---------");
             System.out.println("Nhập số tuyến đường mà lái xe " + driverName + " được phân công: ");
             int drivingRouteNumber = inputDrivingRouteNumber();
-
+            if (drivingRouteNumber == 0){
+                continue;
+            }
             List<DrivingTimeSheet> drivingTimeSheets = new ArrayList<>();
             for (int j = 0; j < drivingRouteNumber; j++) {
                 System.out.println("Nhập id tuyến đường thứ " + (j + 1) + " mà lái xe " + driverName + " được phân công: ");
-                Route route = inputRouteId();
+                BusLine busLine = inputRouteId();
+                System.out.println(busLine);
                 System.out.println("Nhập số lượt lái xe " + driverName + " đi tuyến đường này: ");
                 int drivingTurnNumber = inputTurnNumber(drivingTimeSheets);
-                drivingTimeSheets.add(new DrivingTimeSheet(route, drivingTurnNumber));
+                drivingTimeSheets.add(new DrivingTimeSheet(busLine, drivingTurnNumber));
             }
             Driving driving = new Driving(MainRun.drivers.get(i), drivingTimeSheets);
             tempDrivings.add(driving);
-            driving.setTotalRouteNumber(drivingRouteNumber);
+            driving.setTotalBusLineNumber(drivingRouteNumber);
             MainRun.drivings.add(driving);
         }
         MainRun.drivingDAO.insertNewDrivingTimeSheet(tempDrivings);
@@ -73,7 +76,7 @@ public class DrivingTimeSheetCreator {
     }
 
     private int calculateTotalTurn(List<DrivingTimeSheet> drivingTimeSheets) {
-        return CollectionUtil.isEmpty(drivingTimeSheets) ? 0 : drivingTimeSheets.stream().mapToInt(DrivingTimeSheet::getTurn).sum();
+        return CollectionUtil.isEmpty(drivingTimeSheets) ? 0 : drivingTimeSheets.stream().mapToInt(DrivingTimeSheet::getRoundTripNumber).sum();
     }
 
     private int inputDrivingRouteNumber() {
@@ -88,7 +91,7 @@ public class DrivingTimeSheetCreator {
                 isValidRouteNumber = false;
                 continue;
             }
-            if (drivingRouteNumber <= 0 || drivingRouteNumber > MainRun.routes.size()) {
+            if (drivingRouteNumber < 0 || drivingRouteNumber > MainRun.busLines.size()) {
                 System.out.print("Tuyến đường không được nhỏ hơn 0 và lớn hơn tổng số tuyến! Nhập lại: ");
                 isValidRouteNumber = false;
             }
@@ -96,7 +99,7 @@ public class DrivingTimeSheetCreator {
         return drivingRouteNumber;
     }
 
-    private Route inputRouteId() {
+    private BusLine inputRouteId() {
         int routeId = 0;
         boolean isValidRouteId = true;
         do {
@@ -106,7 +109,14 @@ public class DrivingTimeSheetCreator {
             } catch (Exception e) {
                 System.out.println("không được có ký tự khác ngoài số! Nhập lại: ");
                 isValidRouteId = false;
+                continue;
             }
+            BusLine busLine = searchRouteId(routeId);
+            if (ObjectUtil.isEmpty(busLine)) {
+                System.out.print("Không có id tuyến đường vừa nhập! Nhập lại: ");
+                isValidRouteId = false;
+            }
+            else return busLine;
             for (Integer integer : checkID) {
                 if (integer == routeId) {
                     System.out.println("Tuyến đường đã tồn tại! Nhập lại: ");
@@ -116,18 +126,15 @@ public class DrivingTimeSheetCreator {
             }
             checkID.add(routeId);
         } while (!isValidRouteId);
-
-        Route route = searchRouteId(routeId);
-        if (ObjectUtil.isEmpty(route)) {
-            System.out.print("Không có id tuyến đường vừa nhập! Nhập lại: ");
-        }
-        return route;
+        System.out.println("sai ở 2");
+        return null;
     }
 
-    public static Route searchRouteId(int id) {
-        for (int i = 0; i < MainRun.routes.size(); i++) {
-            if (MainRun.routes.get(i).getId() == id) {
-                return MainRun.routes.get(i);
+    public static BusLine searchRouteId(int id) {
+        System.out.println(MainRun.busLines.size());
+        for (int i = 0; i < MainRun.busLines.size(); i++) {
+            if (MainRun.busLines.get(i).getId() == id) {
+                return MainRun.busLines.get(i);
             }
         }
         return null;

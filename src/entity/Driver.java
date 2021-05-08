@@ -2,12 +2,9 @@ package entity;
 
 import java.util.Scanner;
 
-public class Driver {
-    private static int AUTO_ID = 10000;
+public class Driver extends Person {
+    public static int AUTO_ID = 10000;
     private int id;
-    private String name;
-    private String address;
-    private String phoneNumber;
     private String level;
 
     private static final String LEVEL_A = "Loại A";
@@ -21,10 +18,8 @@ public class Driver {
     }
 
     public Driver(int id, String name, String address, String phoneNumber, String level) {
+        super(name, address,phoneNumber);
         this.id = id;
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
         this.level = level;
     }
 
@@ -52,30 +47,6 @@ public class Driver {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public static String getLevelA() {
         return LEVEL_A;
     }
@@ -100,15 +71,11 @@ public class Driver {
         return LEVEL_F;
     }
 
+    @Override
     public void inputInfo() {
         this.setId(Driver.AUTO_ID);
 
-        System.out.println("Nhập tên lái xe: ");
-        this.name = new Scanner(System.in).nextLine();
-        System.out.println("Nhập địa chỉ lái xe: ");
-        this.address = new Scanner(System.in).nextLine();
-        System.out.println("Nhập số điện thoại lái xe: ");
-        this.phoneNumber = new Scanner(System.in).nextLine();
+        super.inputInfo();
         System.out.println("Nhập trình độ lái xe: ");
         System.out.println("1.Loại A");
         System.out.println("2.Loại B");
@@ -168,11 +135,8 @@ public class Driver {
 
     @Override
     public String toString() {
-        return "Driver{" +
+        return  super.toString() + "Driver{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
                 ", level='" + level + '\'' +
                 '}';
     }

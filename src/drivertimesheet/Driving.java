@@ -8,8 +8,8 @@ import java.util.List;
 public class Driving {
     private Driver driver;
     private List<DrivingTimeSheet> drivingTimeSheets = new ArrayList<>();
-    private int totalRouteNumber;
-    private float totalRange;
+    private int totalBusLineNumber;
+    private float totalDistance;
 
     public Driving(Driving driving, List<DrivingTimeSheet> drivingTimeSheets) {
     }
@@ -19,20 +19,20 @@ public class Driving {
         this.drivingTimeSheets = drivingTimeSheets;
     }
 
-    public float getTotalRange() {
-        return totalRange;
+    public float getTotalDistance() {
+        return totalDistance;
     }
 
-    public void setTotalRange(float totalRange) {
-        this.totalRange = totalRange;
+    public void setTotalDistance(float totalDistance) {
+        this.totalDistance = totalDistance;
     }
 
-    public int getTotalRouteNumber() {
-        return totalRouteNumber;
+    public int getTotalBusLineNumber() {
+        return totalBusLineNumber;
     }
 
-    public void setTotalRouteNumber(int totalRouteNumber) {
-        this.totalRouteNumber = totalRouteNumber;
+    public void setTotalBusLineNumber(int totalBusLineNumber) {
+        this.totalBusLineNumber = totalBusLineNumber;
     }
 
     public Driver getDriver() {

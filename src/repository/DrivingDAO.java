@@ -3,8 +3,8 @@ package repository;
 import constant.DatabaseConstant;
 import drivertimesheet.Driving;
 import drivertimesheet.DrivingTimeSheet;
+import entity.BusLine;
 import entity.Driver;
-import entity.Route;
 import util.CollectionUtil;
 import util.DatabaseConnection;
 import util.ObjectUtil;
@@ -22,7 +22,7 @@ public class DrivingDAO {
     private static final String DRIVING_TABLE_NAME = "driving_assignment";
 
     private static final String DRIVER_ID = "driver_id";
-    private static final String ROUTE_ID = "route_id";
+    private static final String ROUTE_ID = "bus_line_id";
     private static final String ROUND_TRIP_NUMBER = "round_trip_number";
 
     public static final Connection connection;
@@ -36,7 +36,7 @@ public class DrivingDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            String query = "select * d.id driver_id, d.name, d.address, d.phone_number, d.driver_level, bl.id route_id, d.distance, d.bus_stop_number, da.round_trip_number " +
+            String query = "select d.id driver_id, d.name, d.address, d.phone_number, d.driver_level, bl.id bus_line_id, bl.distance, bl.bus_stop_number, da.round_trip_number " +
                     "from " + DRIVING_TABLE_NAME + " da join " + DriverDAO.DRIVER_TABLE_NAME + " d on da.driver_Id = d.id join " + RouteDAO.ROUTE_TABLE_NAME + " bl on da.bus_line_id = bl.id";
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
@@ -52,11 +52,11 @@ public class DrivingDAO {
                 int routeID = resultSet.getInt(ROUTE_ID);
                 float range = resultSet.getFloat(RouteDAO.RANGE);
                 int stopNumber = resultSet.getInt(RouteDAO.STOP_NUMBER);
-                Route route = new Route(routeID, range, stopNumber);
+                BusLine busLine = new BusLine(routeID, range, stopNumber);
 
                 int turn = resultSet.getInt(ROUND_TRIP_NUMBER);
 
-                DrivingTimeSheet drivingTimeSheet = new DrivingTimeSheet(route, turn);
+                DrivingTimeSheet drivingTimeSheet = new DrivingTimeSheet(busLine, turn);
 
                 Driving tempDriving = searchDriver(drivings, driverID);
 
@@ -97,7 +97,7 @@ public class DrivingDAO {
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setInt(1, driverID);
                 preparedStatement.setInt(2, timesheet.getRoute().getId());
-                preparedStatement.setInt(3, timesheet.getTurn());
+                preparedStatement.setInt(3, timesheet.getRoundTripNumber());
                 preparedStatement.executeUpdate();
             } catch (SQLException ex) {
                 ex.printStackTrace();

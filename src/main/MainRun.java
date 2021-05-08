@@ -1,27 +1,28 @@
 package main;
 
 import drivertimesheet.Driving;
+import entity.BusLine;
 import entity.Driver;
-import entity.Route;
 import repository.DriverDAO;
 import repository.DrivingDAO;
 import repository.RouteDAO;
 import util.CollectionUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
 public class MainRun {
     public static List<Driver> drivers = new ArrayList<>();
-    public static List<Route> routes = new ArrayList<>();
+    public static List<BusLine> busLines = new ArrayList<>();
     public static List<Driving> drivings = new ArrayList<>();
 
-    public static final DriverDAO driverDAO =new DriverDAO();
+    public static final DriverDAO driverDAO = new DriverDAO();
     public static final RouteDAO routeDAO = new RouteDAO();
     public static final DrivingDAO drivingDAO = new DrivingDAO();
 
-    private static final DriverCreator driverCreator =new DriverCreator();
+    private static final DriverCreator driverCreator = new DriverCreator();
     private static final RouteCreator routeCreator = new RouteCreator();
     private static final DrivingTimeSheetCreator drivingTimeSheetCreator = new DrivingTimeSheetCreator();
     private static final DrivingTimeSheetSorterAndCalculator sortDrivingTable = new DrivingTimeSheetSorterAndCalculator();
@@ -63,7 +64,19 @@ public class MainRun {
 
     private static void init() {
         drivers = !CollectionUtil.isEmpty(driverDAO.getDrivers()) ? driverDAO.getDrivers() : new ArrayList<>();
-        routes = !CollectionUtil.isEmpty(routeDAO.getRoute()) ? routeDAO.getRoute() : new ArrayList<>();
+        if (CollectionUtil.isEmpty(drivers)) {
+            Driver.AUTO_ID = 10000;
+        } else {
+            drivers.sort(Comparator.comparing(Driver::getId));
+            Driver.AUTO_ID = drivers.get(drivers.size() - 1).getId() + 1;
+        }
+        busLines = !CollectionUtil.isEmpty(routeDAO.getRoute()) ? routeDAO.getRoute() : new ArrayList<>();
+        if (CollectionUtil.isEmpty(busLines)) {
+            BusLine.AUTO_ID = 100;
+        } else {
+            busLines.sort(Comparator.comparing(BusLine::getId));
+            BusLine.AUTO_ID = busLines.get(drivers.size() - 1).getId() + 1;
+        }
         drivings = !CollectionUtil.isEmpty(drivingDAO.getDrivingTimeSheet()) ? drivingDAO.getDrivingTimeSheet() : new ArrayList<>();
     }
 
@@ -94,24 +107,27 @@ public class MainRun {
         return functionChoice;
     }
 
-    public static void createNewDriver(){
+    public static void createNewDriver() {
         driverCreator.createNewDriver();
     }
-    public static void printDriver(){
+
+    public static void printDriver() {
         drivers.forEach(System.out::println);
     }
 
-    public static void createNewRoute(){
+    public static void createNewRoute() {
         routeCreator.createNewRoute();
     }
-    public static void printRoute(){
-        routes.forEach(System.out::println);
+
+    public static void printRoute() {
+        busLines.forEach(System.out::println);
     }
 
-    public static void createNewDrivingTable(){
+    public static void createNewDrivingTable() {
         drivingTimeSheetCreator.createDrivingTable();
     }
-    public static void printDriving(){
+
+    public static void printDriving() {
         drivings.forEach(System.out::println);
     }
 }

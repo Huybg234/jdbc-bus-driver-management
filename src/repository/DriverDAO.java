@@ -2,7 +2,6 @@ package repository;
 
 import constant.DatabaseConstant;
 import entity.Driver;
-import entity.Route;
 import util.CollectionUtil;
 import util.DatabaseConnection;
 import util.ObjectUtil;
@@ -20,8 +19,8 @@ public class DriverDAO {
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String ADDRESS = "address";
-    public static final String PHONE_NUMBER = "phoneNumber";
-    public static final String LEVEL = "level";
+    public static final String PHONE_NUMBER = "phone_number";
+    public static final String LEVEL = "driver_level";
 
     private static final Connection connection;
 
