@@ -108,7 +108,7 @@ public class DrivingDAO {
     }
 
     public void insertNewDrivingTimeSheet(List<Driving> drivings) {
-        if (!CollectionUtil.isEmpty(drivings)) {
+        if (CollectionUtil.isEmpty(drivings)) {
             return;
         }
         drivings.forEach(this::insertNewDriving);

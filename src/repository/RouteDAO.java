@@ -73,7 +73,7 @@ public class RouteDAO {
     }
 
     public void insertNewRoute(List<BusLine> subjects) {
-        if (!CollectionUtil.isEmpty(subjects)) {
+        if (CollectionUtil.isEmpty(subjects)) {
             return;
         }
         subjects.forEach(this::insertNewRoute);

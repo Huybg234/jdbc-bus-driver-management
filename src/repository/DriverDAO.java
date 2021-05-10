@@ -79,7 +79,7 @@ public class DriverDAO {
     }
 
     public void insertNewDriver(List<Driver> drivers) {
-        if (!CollectionUtil.isEmpty(drivers)) {
+        if (CollectionUtil.isEmpty(drivers)) {
             return;
         }
         drivers.forEach(this::insertNewDriver);
